@@ -1,0 +1,180 @@
+/**
+ * Copyright 2013 Robert Balent
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package cz.balent.flight.dao;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.transaction.UserTransaction;
+
+import cz.balent.flight.model.Route;
+import cz.balent.flight.model.User;
+/**
+ * Handles Route entity CRUD operation above database layer.
+ * 
+ * @author Robert Balent
+ *
+ */
+public class RouteManager implements Serializable {
+	private static final long serialVersionUID = 6449619399427656248L;
+	
+	@PersistenceContext
+	EntityManager entityManager;
+
+	@Inject
+	UserTransaction utx;
+	
+	public void saveRoute(Route route) {
+		if (getUserRoute(route.getUser(), route.getName()) == null) {
+			createRoute(route);
+		} else {
+			updateRoute(route);
+		}
+	}
+	
+	private void createRoute(Route route) {
+		try {
+			utx.begin();
+			entityManager.persist(route);
+			entityManager.flush();
+			utx.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			try {
+				utx.rollback();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public List<Route> getUserRoutes(User user) {
+		List<Route> planes = null;
+		try {
+			utx.begin();
+
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Route> cq = cb.createQuery(Route.class);
+			Root<Route> userRoot = cq.from(Route.class);
+			cq.where(cb.equal(userRoot.get("user"), user));
+			TypedQuery<Route> q = entityManager.createQuery(cq);
+			planes = q.getResultList();
+
+			utx.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			try {
+				utx.rollback();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return planes;
+	}
+
+	public Route getUserRoute(User user, String name) {
+		Route route = null;
+		try {
+			utx.begin();
+
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Route> cq = cb.createQuery(Route.class);
+			Root<Route> userRoot = cq.from(Route.class);
+			cq.where(cb.and(cb.equal(userRoot.get("user"), user), cb.equal(userRoot.get("name"), name)));
+			TypedQuery<Route> q = entityManager.createQuery(cq);
+			route = q.getSingleResult();
+			
+			utx.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			try {
+				utx.rollback();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return route;
+	}
+	
+	public Route deleteUserRoute(User user, String name) {
+		Route route = null;
+		try {
+			utx.begin();
+
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Route> cq = cb.createQuery(Route.class);
+			Root<Route> userRoot = cq.from(Route.class);
+			cq.where(cb.and(cb.equal(userRoot.get("user"), user), cb.equal(userRoot.get("name"), name)));
+			TypedQuery<Route> q = entityManager.createQuery(cq);
+			route = q.getSingleResult();
+			
+			entityManager.remove(route);
+			
+			utx.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			try {
+				utx.rollback();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return route;
+	}
+		
+	
+
+	private boolean updateRoute(Route route) {
+		
+		try {
+			utx.begin();
+			
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Route> cq = cb.createQuery(Route.class);
+			Root<Route> userRoot = cq.from(Route.class);
+			cq.where(cb.and(cb.equal(userRoot.get("user"), route.getUser()), cb.equal(userRoot.get("name"), route.getName())));
+			TypedQuery<Route> q = entityManager.createQuery(cq);
+			Route persistedRoute = q.getSingleResult();
+			
+			persistedRoute.setPoints(route.getPoints());
+			entityManager.flush();
+			
+			utx.commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			try {
+				utx.rollback();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+		}
+		return true;
+	}
+	
+}

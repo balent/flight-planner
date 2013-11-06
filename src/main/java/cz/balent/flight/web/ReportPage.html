@@ -1,0 +1,100 @@
+<!--
+   Copyright 2013 Robert Balent
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html>
+<body>
+
+	<wicket:extend>
+		<h3>Information about route</h3>
+        <table class="table table-bordered">
+			<tr>
+				<th>Route</th>
+				<th>Course</th>
+				<th>Real Course</th>
+				<th>Distance (km)</th>
+				<th>Time</th>
+				<th> ETA </th>
+				<th> ATA </th>
+				<th>W.Direction</th>
+				<th>W.Speed (knots)</th>
+			</tr>
+			<tr wicket:id="repeatedRoutePart">
+				<td><img wicket:id="firstMarker" style="height: 30px;" src="" />
+					<img wicket:id="secondMarker" style="height: 30px;" src="" /></td>
+				<td wicket:id="course"></td>
+				<td wicket:id="calculatedCourse"></td>
+				<td wicket:id="distance"></td>
+				<td wicket:id="time"></td>
+				<td></td>
+				<td></td>
+				<td wicket:id="windDirection"></td>
+				<td wicket:id="windSpeed"></td>
+			</tr>
+		</table>
+		<h3>Information about points</h3>
+        <table class="table table-bordered">
+			<tr>
+				<th>Point</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+			</tr>
+			<tr wicket:id="pointView">
+				<td><img wicket:id="pointMarker" style="height: 30px;" src="" /></td>
+				<td wicket:id="pointLatitude"></td>
+				<td wicket:id="pointLongitude"></td>
+			</tr>
+		</table>
+		<h3>Other information</h3>
+        <table class="table table-bordered">
+			<tr>
+				<th>Distance (km):</th>
+				<td wicket:id="routeDistance"></td>
+			</tr>
+			<tr>
+				<th>Time:</th>
+				<td wicket:id="routeTime"></td>
+			</tr>
+			<tr>
+				<th>Consumption (l):</th>
+				<td wicket:id="routeConsumption"></td>
+			</tr>
+		</table>
+		<h3>Addidng additional time for Take-off + Landing + <span wicket:id = "twistCount1">3</span>x sharp course change (2x5min + <span wicket:id = "twistCount2">3</span>x1min)</h3>
+        <table class="table table-bordered">
+			<tr>
+				<th>Total time:</th>
+				<td wicket:id="totalTime">30</td>
+			</tr>
+			<tr>
+				<th>Total consumption (l):</th>
+				<td wicket:id="totalConsumption">30</td>
+			</tr>
+			
+		</table>
+		<h3>Save route?</h3>
+		<form wicket:id="saveForm">
+			<table>
+				<tr>
+				<td><label for="loginInput" >Route name:</label></td>
+				<td><input type="text" wicket:id="routeName" /></td>
+				</tr>
+			</table>
+			<input type="submit" value="Save" />
+			<a wicket:id="printMap">Print Map</a>
+		</form>
+	</wicket:extend>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!--
+   Copyright 2013 Robert Balent
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html>
+<body>
+
+<wicket:extend>
+    <div class="row">
+        <div class="col-md-3" style="float: left;">
+
+            <form id="loginForm" wicket:id="form">
+
+                <div wicket:id="repeaterParent">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th><img src="http://www.google.com/mapfiles/marker.png"/></th>
+                            <th style="width: 6em;">Wind Direction</th>
+                            <th style="width: 6em;">Wind Speed (knots)</th>
+                            <th>Delete</th>
+                        </tr>
+                        <tr wicket:id="repeatingView">
+                            <td><img wicket:id="markerImage" style="height: 30px;" src=""/></td>
+                            <td><input type="text" style="width: 100%;" wicket:id="windDirection" value="0"/></td>
+                            <td><input type="text" style="width: 100%;" wicket:id="windSpeed" value="0"/></td>
+                            <td>
+                                <form wicket:id="deleteForm">
+                                    <input type="submit" wicket:id="deletePoint" style="width: 100%;" value="X"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <select style="width: 100%;" wicket:id="planes">
+                        <option>Plane1</option>
+                        <option>Plane2</option>
+                    </select>
+                    <input wicket:id="roundTripCheck" type="checkbox">Is round trip?</input>
+                    <input style="width: 100%;" type="submit" value="Submit route"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9" id="map" style="float: left; height: 600px; width: 800px;"
+             wicket:id="map">Map
+        </div>
+    </div>
+</wicket:extend>
+
+</body>
+</html>

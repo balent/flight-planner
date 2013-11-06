@@ -1,0 +1,55 @@
+<!--
+   Copyright 2013 Robert Balent
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html>
+<body>
+<wicket:extend>
+    <h3>Username: <span wicket:id="userName"></span></h3>
+
+
+    <div class="col-md-4">
+        <h4>Your Routes:</h4>
+
+        <form role="form" wicket:id="routeForm">
+            <div class="form-group">
+                <select class="form-control" wicket:id="routeNames">
+                    <option>Route1</option>
+                    <option>Route2</option>
+                </select>
+            </div>
+            <input wicket:id="newRoute" type="submit" value="New Route" class="btn btn-default"/>
+            <input wicket:id="editRoute" type="submit" value="Edit Route" class="btn btn-default"/>
+            <input wicket:id="deleteRoute" type="submit" value="Delete Route" class="btn btn-default"/>
+        </form>
+
+        <h4>Your Planes:</h4>
+
+
+        <form role="form" wicket:id="planeForm">
+            <div class="form-group">
+                <select class="form-control" wicket:id="planeNames">
+                    <option>Plane1</option>
+                    <option>Plane2</option>
+                </select>
+            </div>
+
+            <input wicket:id="newPlane" type="submit" value="New Plane" class="btn btn-default"/>
+            <input wicket:id="editPlane" type="submit" value="Edit Plane" class="btn btn-default"/>
+            <input wicket:id="deletePlane" type="submit" value="Delete Plane" class="btn btn-default"/>
+        </form>
+    </div>
+</wicket:extend>
+</body>
+</html>
