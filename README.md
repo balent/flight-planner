@@ -7,4 +7,4 @@ Build application:
 
     mvn clean install
 
-Deploy application on Java EE server. Preferable on JBoss AS7 
+Deploy application on Java EE server. Preferable on JBoss AS7.
